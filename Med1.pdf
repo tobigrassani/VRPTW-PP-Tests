@@ -35,6 +35,8 @@
                 .leaflet-container { font-size: 1rem; }
             </style>
         
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.css"/>
 </head>
 <body>
     
@@ -2428,6 +2430,35 @@
                 layer_control_2c2bf584ee634de945216fdb0282b047.overlays,
                 {"autoZIndex": true, "collapsed": true, "position": "topright"}
             ).addTo(map_d84fbc21e205e72eddf10f0a9da98310);
+        
+    
+            var options = {
+              position: "topleft",
+              draw: {},
+              edit: {},
+            }
+            // FeatureGroup is to store editable layers.
+            var drawnItems = new L.featureGroup().addTo(
+                map_d84fbc21e205e72eddf10f0a9da98310
+            );
+            options.edit.featureGroup = drawnItems;
+            var draw_control_38c3bd0ae7785abbd11fcc2dfc094058 = new L.Control.Draw(
+                options
+            ).addTo( map_d84fbc21e205e72eddf10f0a9da98310 );
+            map_d84fbc21e205e72eddf10f0a9da98310.on(L.Draw.Event.CREATED, function(e) {
+                var layer = e.layer,
+                    type = e.layerType;
+                var coords = JSON.stringify(layer.toGeoJSON());
+                layer.on('click', function() {
+                    alert(coords);
+                    console.log(coords);
+                });
+                drawnItems.addLayer(layer);
+             });
+            map_d84fbc21e205e72eddf10f0a9da98310.on('draw:created', function(e) {
+                drawnItems.addLayer(e.layer);
+            });
+            
         
 </script>
 </html>
