@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog
+import folium.plugins as plugins
 import pandas as pd
 import folium
 import webbrowser
@@ -49,11 +50,35 @@ def crear_grafico():
             coordenadas.append((row['Latitud'], row['Longitud']))
             # Personalizar el marcador con el nombre del cliente como tooltip y el nombre como contenido del popup
             if index == 0:  # Si es el primer marcador
-                icono = folium.Icon(color='red', icon=str(index+1), prefix='fa')  # Usar un icono rojo
+                icono = plugins.BeautifyIcon(
+                    icon="map-marker",
+                    icon_shape="marker",
+                    number=str(index + 1),
+                    border_color="#c20000",
+                    background_color="#c20000",
+                    text_color='white',
+                    inner_icon_style='font-size:1.2em;vertical-align:middle;horizontal-align:middle'
+                )
             elif index == len(df) - 1:  # Si es el último marcador
-                icono = folium.Icon(color='black', icon=str(index+1), prefix='fa')  # Usar un icono azul
+                icono = plugins.BeautifyIcon(
+                    icon="map-marker",
+                    icon_shape="marker",
+                    number=str(index + 1),
+                    border_color="black",
+                    background_color="black",
+                    text_color='white',
+                    inner_icon_style='font-size:1.2em;vertical-align:middle;horizontal-align:middle'
+                )
             else:
-                icono = folium.Icon(color='blue', icon=str(index+1), prefix='fa')  # Usar un icono verde para los demás
+                icono = plugins.BeautifyIcon(
+                    icon= "map-marker",
+                    icon_shape= "marker",
+                    number= str(index + 1),
+                    border_color="#2a8c4a",
+                    background_color="#2a8c4a",
+                    text_color='white',
+                    inner_icon_style='font-size:1.3em;vertical-align:middle;horizontal-align:middle'
+                )
             folium.Marker(location=[row['Latitud'], row['Longitud']],
                           tooltip=row['Cliente'],
                           popup=row['Nombre'],
