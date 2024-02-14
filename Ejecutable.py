@@ -80,8 +80,8 @@ def crear_grafico():
                     inner_icon_style='font-size:1.3em;vertical-align:middle;horizontal-align:middle'
                 )
             folium.Marker(location=[row['Latitud'], row['Longitud']],
-                          tooltip=row['Cliente'],
-                          popup=row['Nombre'],
+                          tooltip="<b><h4>" + str(row['Cliente']) + "</h4></b>",
+                          popup="<b><h5>" + str(row['Cliente']) + "</h5></b>" + "<dd>" +  row['Nombre'] + "</dd>",
                           icon=icono
                           ).add_to(mapa)
 
