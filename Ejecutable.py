@@ -29,8 +29,10 @@ def importar_marcadores():
 
         # Actualizar la tabla con los datos importados
         tabla.delete(*tabla.get_children())
+        column_order = df.columns.tolist()  # Obtener el orden de las columnas
         for index, row in df.iterrows():
-            tabla.insert("", "end", values=(row['Nombre'], row['Latitud'], row['Longitud'], row['Cliente']))
+            values = [row[column] for column in column_order]  # Obtener los valores en el orden correcto
+            tabla.insert("", "end", values=values)  # Insertar la fila con los valores en el orden correcto
 
         # Actualizar el conteo de marcadores
         contar_marcadores()
@@ -189,13 +191,12 @@ btn_importar_marcadores = ttk.Button(frame_importar_excel, text="Importar", comm
 btn_importar_marcadores.pack(side=tk.LEFT, padx=5)
 
 # Sección para visualizar la tabla importada
-tabla = ttk.Treeview(frame_tabla, columns=("Nombre", "Latitud", "Longitud", "Cliente"), show="headings")
+tabla = ttk.Treeview(frame_tabla, columns=("Cliente", "Nombre", "Latitud", "Longitud"), show="headings")
+tabla.heading("Cliente", text="Cliente")  # Nueva columna para el cliente
 tabla.heading("Nombre", text="Nombre")
 tabla.heading("Latitud", text="Latitud")
 tabla.heading("Longitud", text="Longitud")
-tabla.heading("Cliente", text="Cliente")  # Nueva columna para el cliente
 tabla.pack(expand=True, fill=tk.BOTH)
-
 
 # Función para contar la cantidad de marcadores cargados en la tabla
 def contar_marcadores():
