@@ -27,12 +27,19 @@ def importar_marcadores():
         elif ruta_archivo.endswith('.csv'):
             df = pd.read_csv(ruta_archivo)
 
+        # Verificar si el DataFrame tiene las columnas requeridas
+        required_columns = ['Nombre', 'Latitud', 'Longitud', 'Cliente']
+        if not set(required_columns).issubset(df.columns):
+            tk.messagebox.showerror("Error", "El archivo no contiene todas las columnas requeridas.")
+            return
+
         # Actualizar la tabla con los datos importados
         tabla.delete(*tabla.get_children())
         column_order = df.columns.tolist()  # Obtener el orden de las columnas
         for index, row in df.iterrows():
             values = [row[column] for column in column_order]  # Obtener los valores en el orden correcto
             tabla.insert("", "end", values=values)  # Insertar la fila con los valores en el orden correcto
+
 
         # Actualizar el conteo de marcadores
         contar_marcadores()
@@ -111,8 +118,8 @@ def crear_grafico():
 
         # Añadir la lista de marcadores al mapa
         lista_html = """
-        <div id="marcadores" style="position: absolute; top: 10px; right: 10px; background-color: white; padding: 10px; border: 1px solid black; z-index: 1000; display: none; max-height: 300px; overflow-y: auto;">
-          <h3>Marcadores</h3>
+        <div id="marcadores" style="position: absolute; top: 10px; right: 10px; background-color: white; padding: 10px; border: 1px solid black; z-index: 1000; display: none; max-height: 95vh; overflow-y: auto;">
+          <h3><b>Listado Clientes</b></h3>
           <ul style="list-style-type:none; padding: 0;">
         """
         for i, marcador in enumerate(lista_marcadores):
@@ -125,7 +132,9 @@ def crear_grafico():
 
         # Añadir un botón para mostrar/ocultar la lista de marcadores
         boton_html = """
-        <button onclick="toggleMarcadores()">Mostrar/Ocultar Marcadores</button>
+        <div style="position: fixed; top: 10px; right: 10px; z-index: 1000;">
+            <button onclick="toggleMarcadores()" style="background-color: #fff; border: 1px solid #999; border-radius: 4px; padding: 5px 10px;">Mostrar/Ocultar Listado Clientes</button>
+        </div>
         """
         mapa.get_root().html.add_child(folium.Element(boton_html))
 
