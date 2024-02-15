@@ -75,7 +75,7 @@ def crear_grafico():
                     border_color="#c20000",
                     background_color="#c20000",
                     text_color='white',
-                    inner_icon_style='font-size:1.2em;vertical-align:middle;horizontal-align:middle'
+                    inner_icon_style='font-size:1.2em; line-height: 1.5; text-align: center;'
                 )
             elif index == len(df) - 1:  # Si es el último marcador
                 icono = plugins.BeautifyIcon(
@@ -85,7 +85,7 @@ def crear_grafico():
                     border_color="black",
                     background_color="black",
                     text_color='white',
-                    inner_icon_style='font-size:1.2em;vertical-align:middle;horizontal-align:middle'
+                    inner_icon_style='font-size:1.2em; line-height: 1.5; text-align: center;'
                 )
             else:
                 icono = plugins.BeautifyIcon(
@@ -95,7 +95,7 @@ def crear_grafico():
                     border_color="#2a8c4a",
                     background_color="#2a8c4a",
                     text_color='white',
-                    inner_icon_style='font-size:1.3em;vertical-align:middle;horizontal-align:middle'
+                    inner_icon_style='font-size:1.3em; line-height: 1.5; text-align: center;'
                 )
             folium.Marker(location=[row['Latitud'], row['Longitud']],
                           tooltip="<b><h4>" + str(row['Cliente']) + "</h4></b>",
