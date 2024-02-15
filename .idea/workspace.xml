@@ -34,6 +34,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "JavaScript Debug.mapa_marcadores.html.executor": "Run",
     "Python.Ejecutable.executor": "Run",
     "Python.Unnamed.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
@@ -100,7 +101,7 @@
       <workItem from="1706715719700" duration="1275000" />
       <workItem from="1706717277800" duration="1810000" />
       <workItem from="1707400939226" duration="21104000" />
-      <workItem from="1707936544842" duration="1423000" />
+      <workItem from="1707936544842" duration="2234000" />
     </task>
     <servers />
   </component>
@@ -119,6 +120,6 @@
     </option>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/VRPTW_PP_Tests$Ejecutable.coverage" NAME="Ejecutable Coverage Results" MODIFIED="1707937604045" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/VRPTW_PP_Tests$Ejecutable.coverage" NAME="Ejecutable Coverage Results" MODIFIED="1708001643263" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
