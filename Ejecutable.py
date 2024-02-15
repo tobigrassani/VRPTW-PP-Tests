@@ -12,6 +12,7 @@ mapa_html = "mapa_marcadores.html"
 
 
 # Función para importar marcadores desde un archivo Excel o CSV
+# Función para importar marcadores desde un archivo Excel o CSV
 def importar_marcadores():
     global df
 
@@ -27,6 +28,9 @@ def importar_marcadores():
         elif ruta_archivo.endswith('.csv'):
             df = pd.read_csv(ruta_archivo)
 
+        # Eliminar filas con valores NaN
+        df = df.dropna()
+
         # Verificar si el DataFrame tiene las columnas requeridas
         required_columns = ['Nombre', 'Latitud', 'Longitud', 'Cliente']
         if not set(required_columns).issubset(df.columns):
@@ -40,9 +44,9 @@ def importar_marcadores():
             values = [row[column] for column in column_order]  # Obtener los valores en el orden correcto
             tabla.insert("", "end", values=values)  # Insertar la fila con los valores en el orden correcto
 
-
         # Actualizar el conteo de marcadores
         contar_marcadores()
+
 
 
 # Función para crear el gráfico visualizando los marcadores en un mapa de Folium
@@ -98,10 +102,11 @@ def crear_grafico():
                     inner_icon_style='font-size:1.3em; line-height: 1.5; text-align: center;'
                 )
             folium.Marker(location=[row['Latitud'], row['Longitud']],
-                          tooltip="<b><h4>" + str(row['Cliente']) + "</h4></b>",
-                          popup="<b><h5>" + str(row['Cliente']) + "</h5></b>" + "<dd>" + row['Nombre'] + "</dd>",
-                          icon=icono
-                          ).add_to(mapa)
+              tooltip="<b><h4>" + str(row['Cliente']) + "</h4></b>",
+              popup="<div style='min-width: 200px;'><b><h5>" + str(row['Cliente']) + "</h5></b>" + "<dd><b>Nombre:</b> " + row['Nombre'] + "</dd><dd><b>Horarios:</b> " + 'Horarios' + "</dd></div>",
+              icon=icono
+              ).add_to(mapa)
+
 
         # Calcular el centro del mapa y el nivel de zoom adecuado
         latitudes = [coord[0] for coord in coordenadas]
