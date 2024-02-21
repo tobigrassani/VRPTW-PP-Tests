@@ -5,12 +5,12 @@ import folium.plugins as plugins
 import pandas as pd
 import folium
 import webbrowser
+import platform
+import subprocess
 
 # Variables globales para almacenar los datos del archivo importado
 df = None
 mapa_html = "mapa_marcadores.html"
-
-
 
 # Función para importar marcadores desde un archivo Excel o CSV
 def importar_marcadores():
@@ -47,12 +47,9 @@ def importar_marcadores():
         # Actualizar el conteo de marcadores
         contar_marcadores()
 
-
-
 # Función para crear el gráfico visualizando los marcadores en un mapa de Folium
 def crear_grafico():
     global df
-
     if df is not None:
         # Crear un mapa de Folium
         mapa = folium.Map()
@@ -102,11 +99,10 @@ def crear_grafico():
                     inner_icon_style='font-size:1.3em; line-height: 1.5; text-align: center;'
                 )
             folium.Marker(location=[row['Latitud'], row['Longitud']],
-              tooltip="<b><h4>" + str(row['Cliente']) + "</h4></b>",
-              popup="<div style='min-width: 200px;'><b><h5>" + str(row['Cliente']) + "</h5></b>" + "<dd><b>Nombre:</b> " + row['Nombre'] + "</dd><dd><b>Horarios:</b> " + 'Horarios' + "</dd></div>",
-              icon=icono
-              ).add_to(mapa)
-
+                          tooltip="<b><h4>" + str(row['Cliente']) + "</h4></b>",
+                          popup="<div style='min-width: 200px;'><b><h5>" + str(row['Cliente']) + "</h5></b>" + "<dd><b>Nombre:</b> " + row['Nombre'] + "</dd><dd><b>Horarios:</b> " + 'Horarios' + "</dd></div>",
+                          icon=icono
+                          ).add_to(mapa)
 
         # Calcular el centro del mapa y el nivel de zoom adecuado
         latitudes = [coord[0] for coord in coordenadas]
@@ -158,27 +154,27 @@ def crear_grafico():
         """
         mapa.get_root().html.add_child(folium.Element(javascript))
 
-        # JavaScript para mostrar/ocultar la lista de marcadores
-        javascript = """
-        <script>
-        function toggleMarcadores() {
-          var marcadoresDiv = document.getElementById("marcadores");
-          if (marcadoresDiv.style.display === "none") {
-            marcadoresDiv.style.display = "block";
-          } else {
-            marcadoresDiv.style.display = "none";
-          }
-        }
-        </script>
-        """
-        mapa.get_root().html.add_child(folium.Element(javascript))
-
         # Guardar el mapa en un archivo HTML
         mapa.save(mapa_html)
 
         # Abrir el mapa en el navegador web predeterminado
-        webbrowser.open(mapa_html)
+        abrir_archivo_html()
 
+# Función para contar la cantidad de marcadores cargados en la tabla
+def contar_marcadores():
+    cantidad_marcadores = len(tabla.get_children())
+    label_cantidad_marcadores.config(text=f"Cantidad de marcadores: {cantidad_marcadores}")
+
+# Función para abrir el archivo HTML resultante según el sistema operativo
+def abrir_archivo_html():
+    if platform.system() == "Windows":
+        webbrowser.open(mapa_html)
+    elif platform.system() == "Darwin":  # macOS
+        subprocess.call(["open", mapa_html])
+    elif platform.system() == "Linux":
+        subprocess.call(["xdg-open", mapa_html])
+    else:
+        print("Sistema operativo no compatible.")
 
 # Crear la ventana principal
 ventana = tk.Tk()
@@ -212,12 +208,6 @@ tabla.heading("Latitud", text="Latitud")
 tabla.heading("Longitud", text="Longitud")
 tabla.pack(expand=True, fill=tk.BOTH)
 
-# Función para contar la cantidad de marcadores cargados en la tabla
-def contar_marcadores():
-    cantidad_marcadores = len(tabla.get_children())
-    label_cantidad_marcadores.config(text=f"Cantidad de marcadores: {cantidad_marcadores}")
-
-
 # Etiqueta para mostrar la cantidad de marcadores
 label_cantidad_marcadores = ttk.Label(frame_tabla, text="Cantidad de marcadores: 0")
 label_cantidad_marcadores.pack(side=tk.BOTTOM, pady=10)
@@ -228,4 +218,3 @@ btn_crear_grafico.pack()
 
 # Ejecutar la aplicación
 ventana.mainloop()
-
