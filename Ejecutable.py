@@ -11,7 +11,7 @@ df = None
 mapa_html = "mapa_marcadores.html"
 
 
-# Función para importar marcadores desde un archivo Excel o CSV
+
 # Función para importar marcadores desde un archivo Excel o CSV
 def importar_marcadores():
     global df
